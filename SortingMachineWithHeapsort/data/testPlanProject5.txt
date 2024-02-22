@@ -1,0 +1,28 @@
+Test Plan for Project #5
+
+add (LAYAN)
+
+changeToExtractionMode (OAK)
+
+removeFirst (LAYAN)
+
+isInInsertionMode (IMPLEMENTED)
+
+order (IMPLEMENTED)
+
+size (OAK)
+
+
+
+
+
+exchangeEntries (LAYAN)
+
+siftDown (OAK)
+
+heapify (LAYAN)
+
+buildHeap (OAK)
+
+createNewRep (LAYAN)
+
