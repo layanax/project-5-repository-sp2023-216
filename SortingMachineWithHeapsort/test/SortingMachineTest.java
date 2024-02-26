@@ -137,7 +137,16 @@ public abstract class SortingMachineTest {
         assertEquals(mExpected, m);
     }
 
-    // TODO - add test cases for add, changeToExtractionMode, removeFirst,
-    // isInInsertionMode, order, and size
+    //add test cases
+
+    //changeToExtractionMode test cases
+
+    //removeFirst test cases
+
+    //isInInsertionMode test cases
+
+    //order test cases
+
+    //size test cases
 
 }
