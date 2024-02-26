@@ -188,22 +188,16 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
                 if (order.compare(array[2 * top + 1],
                         array[2 * top + 2]) <= 0) {
                     if (order.compare(array[2 * top + 1], array[top]) < 0) {
-                        T temp = array[2 * top + 1];
-                        array[2 * top + 1] = array[top];
-                        array[top] = temp;
+                        exchangeEntries(array, (2 * top + 1), top);
                         siftDown(array, 2 * top + 1, last, order);
                     }
                 } else {
                     if (order.compare(array[2 * top + 2], array[top]) < 0) {
-                        T temp = array[2 * top + 1];
-                        array[2 * top + 1] = array[top];
-                        array[top] = temp;
+                        exchangeEntries(array, (2 * top + 2), top);
                         siftDown(array, 2 * top + 1, last, order);
                     }
                 }
-            }
-
-            else {
+            } else {
                 if (order.compare(array[2 * top + 1], array[top]) < 0) {
                     T temp = array[2 * top + 1];
                     array[2 * top + 1] = array[top];
@@ -526,6 +520,8 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
         assert this.isInInsertionMode() : "Violation of: this.insertion_mode";
 
         this.insertionMode = false;
+        this.heap = buildHeap(this.entries, this.machineOrder);
+        this.heapSize = this.heap.length;
 
         assert this.conventionHolds();
     }

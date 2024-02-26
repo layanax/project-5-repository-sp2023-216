@@ -137,16 +137,59 @@ public abstract class SortingMachineTest {
         assertEquals(mExpected, m);
     }
 
-    //add test cases
+    //ADD TEST CASES
+    //Testing adding to an empty heap
 
-    //changeToExtractionMode test cases
+    //Testing adding to a non empty heap only one entry
 
-    //removeFirst test cases
+    //Testing adding to a non empty heap multiple entries
 
-    //isInInsertionMode test cases
+    //CHANGETOEXTRACTION MODE TEST CASES
+    //Testing changing to extraction mode when the heap is empty
 
-    //order test cases
+    //Testing changing to extraction mode when the heap has one entry
 
-    //size test cases
+    //Testing changing to extraction mode with multiple entries
+
+    //REMOVE FIRST TEST CASES
+    //Testing removing first causing an empty heap
+
+    //Testing removing first causing a heap with only 1 entry
+
+    //Testing removing first causing a heap with multiply enntries
+
+    //REMOVE TEST CASES
+    //Testing remove causing an empty heap
+
+    //Testing remove causing a heap with one entry
+
+    //Testing remove causing a heap with multiple entries
+
+    //IS IN INSTERTION MODE TEST CASES
+    //Testing is in insertion mode on a non empty heap when it's true
+
+    //Testing is in insertion mode on a non empty heap when it's false
+
+    //Testing is in insertion mode on an empty heap when it's true
+
+    //Testing is in insertion mode on an empty heap when it's false
+
+    //SIZE TEST CASES
+    // Testing size when empty in insertion mode
+
+    //Testing size when empty in extraction mode
+
+    //Testing size when not empty in isertion mode
+
+    //Testing size when not empty in extraction mode
+
+    //ORDER TEST CASES
+    //Testing order when empty in insertion mode
+
+    //Testing order when empty in extraction mode
+
+    //Testing order when non empty in insertion mode
+
+    //Testing order when non empty in extraction mode
 
 }
