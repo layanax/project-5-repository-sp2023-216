@@ -1,4 +1,6 @@
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Comparator;
 
@@ -139,57 +141,269 @@ public abstract class SortingMachineTest {
 
     //ADD TEST CASES
     //Testing adding to an empty heap
+    @Test
+    public final void testAddToEmptyHeap() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, true);
+        SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, true,
+                "red");
+        m.add("red");
+        assertEquals(mExpected, m);
+    }
 
     //Testing adding to a non empty heap only one entry
+    @Test
+    public final void testAddToOneEntryHeap() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, true, "red");
+        SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, true,
+                "red", "yellow");
+        m.add("yellow");
+        assertEquals(mExpected, m);
+    }
 
     //Testing adding to a non empty heap multiple entries
+    @Test
+    public final void testAddToMultipleEntriesHeap() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, true, "red",
+                "yellow");
+        SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, true,
+                "red", "yellow", "orange");
+        m.add("orange");
+        assertEquals(mExpected, m);
+    }
 
     //CHANGETOEXTRACTION MODE TEST CASES
     //Testing changing to extraction mode when the heap is empty
+    @Test
+    public final void testChangeToExtractionModeEmptyHeap() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, true);
+        SortingMachine<String> mExpected = this.createFromArgsTest(ORDER,
+                false);
+
+        m.changeToExtractionMode();
+
+        assertEquals(mExpected, m);
+    }
 
     //Testing changing to extraction mode when the heap has one entry
+    @Test
+    public final void testChangeToExtractionModeOneEntryHeap() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, true, "red");
+        SortingMachine<String> mExpected = this.createFromArgsTest(ORDER, false,
+                "red");
+
+        m.changeToExtractionMode();
+
+        assertEquals(mExpected, m);
+    }
 
     //Testing changing to extraction mode with multiple entries
+    @Test
+    public final void testChangeToExtractionModeMultipleEntriesHeap() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, true, "red",
+                "yellow", "purple");
+        SortingMachine<String> mExpected = this.createFromArgsTest(ORDER, false,
+                "red", "yellow", "purple");
+
+        m.changeToExtractionMode();
+
+        assertEquals(mExpected, m);
+    }
 
     //REMOVE FIRST TEST CASES
     //Testing removing first causing an empty heap
+    @Test
+    public final void testRemoveFirstEmptyHeap() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, false);
+        SortingMachine<String> mExpected = this.createFromArgsTest(ORDER,
+                false);
+
+        String removed = m.removeFirst();
+
+        assertEquals(null, removed);
+        assertEquals(mExpected, m);
+    }
 
     //Testing removing first causing a heap with only 1 entry
+    @Test
+    public final void testRemoveFirstOneEntryHeap() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, false, "red");
+        SortingMachine<String> mExpected = this.createFromArgsTest(ORDER,
+                false);
 
-    //Testing removing first causing a heap with multiply enntries
+        String removed = m.removeFirst();
+
+        assertEquals("red", removed);
+        assertEquals(mExpected, m);
+    }
+
+    //Testing removing first causing a heap with multiply entries
+    @Test
+    public final void testRemoveFirstMultipleEntriesHeap() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, false,
+                "yellow", "red", "purple");
+        SortingMachine<String> mExpected = this.createFromArgsTest(ORDER, false,
+                "yellow", "purple");
+
+        String removed = m.removeFirst();
+
+        assertEquals("red", removed);
+        assertEquals(mExpected, m);
+    }
 
     //REMOVE TEST CASES
     //Testing remove causing an empty heap
+    @Test
+    public final void testRemoveEmptyHeap() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, false);
+        SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, false);
+
+        m.removeFirst();
+
+        assertEquals(mExpected, m);
+    }
 
     //Testing remove causing a heap with one entry
+    @Test
+    public final void testRemoveHeapWithOneEntry() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, false,
+                "green");
+        SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, false);
+        m.removeFirst();
+        assertEquals(mExpected, m);
+    }
 
     //Testing remove causing a heap with multiple entries
+    @Test
+    public final void testRemoveHeapWithMultipleEntries() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, false,
+                "green", "red", "yellow");
+        SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, false,
+                "yellow", "green");
+        m.removeFirst();
+        assertEquals(mExpected, m);
+    }
 
     //IS IN INSTERTION MODE TEST CASES
     //Testing is in insertion mode on a non empty heap when it's true
+    @Test
+    public final void testIsInInsertionModeTrueNonEmptyHeap() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, true,
+                "green");
+        SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, true,
+                "green");
+        assertTrue(m.isInInsertionMode());
+        assertEquals(mExpected, m);
+    }
 
     //Testing is in insertion mode on a non empty heap when it's false
+    @Test
+    public final void testIsInInsertionModeFalseNonEmptyHeap() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, false,
+                "green");
+        SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, false,
+                "green");
+        assertFalse(m.isInInsertionMode());
+        assertEquals(mExpected, m);
+    }
 
     //Testing is in insertion mode on an empty heap when it's true
+    @Test
+    public final void testIsInInsertionModeTrueEmptyHeap() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, true);
+        SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, true);
+        assertTrue(m.isInInsertionMode());
+        assertEquals(mExpected, m);
+    }
 
     //Testing is in insertion mode on an empty heap when it's false
+    @Test
+    public final void testIsInInsertionModeFalseEmptyHeap() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, false);
+        SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, false);
+        assertFalse(m.isInInsertionMode());
+        assertEquals(mExpected, m);
+    }
 
     //SIZE TEST CASES
     // Testing size when empty in insertion mode
+    @Test
+    public final void testSizeEmptyInsertionMode() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, true);
+        SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, true);
+        assertEquals(0, m.size());
+        assertEquals(mExpected, m);
+    }
 
     //Testing size when empty in extraction mode
+    @Test
+    public final void testSizeEmptyExtractionMode() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, false);
+        SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, false);
+        assertEquals(0, m.size());
+        assertEquals(mExpected, m);
+    }
 
-    //Testing size when not empty in isertion mode
+    //Testing size when not empty in insertion mode
+    @Test
+    public final void testSizeNonEmptyInsertionMode() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, true, "green",
+                "red");
+        SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, true,
+                "green", "red");
+        assertEquals(2, m.size());
+        assertEquals(mExpected, m);
+    }
 
     //Testing size when not empty in extraction mode
+    @Test
+    public final void testSizeNonEmptyExtractionMode() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, false,
+                "green", "red");
+        SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, false,
+                "green", "red");
+        assertEquals(2, m.size());
+        assertEquals(mExpected, m);
+    }
 
     //ORDER TEST CASES
     //Testing order when empty in insertion mode
+    @Test
+    public final void testOrderEmptyInsertionMode() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, true);
+        SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, true);
+        assertEquals(ORDER, m.order());
+        assertEquals(mExpected, m);
+    }
 
     //Testing order when empty in extraction mode
+    @Test
+    public final void testOrderEmptyExtractionMode() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, false);
+        SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, false);
+        assertEquals(ORDER, m.order());
+        assertEquals(mExpected, m);
+    }
 
     //Testing order when non empty in insertion mode
+    @Test
+    public final void testOrderNonEmptyInsertionMode() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, true, "green",
+                "red");
+        SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, true,
+                "green", "red");
+        assertEquals(ORDER, m.order());
+        assertEquals(mExpected, m);
+    }
 
     //Testing order when non empty in extraction mode
+    @Test
+    public final void testOrderNonEmptyExtractionMode() {
+        SortingMachine<String> m = this.createFromArgsTest(ORDER, false,
+                "green", "red");
+        SortingMachine<String> mExpected = this.createFromArgsRef(ORDER, false,
+                "green", "red");
+        assertEquals(ORDER, m.order());
+        assertEquals(mExpected, m);
+    }
 
 }
