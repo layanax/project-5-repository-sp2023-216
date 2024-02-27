@@ -116,6 +116,7 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
         assert 0 <= j : "Violation of: 0 <= j";
         assert j < array.length : "Violation of: j < |array|";
 
+        //if i and j are different, exchange their corresponding array entries
         if (i != j) {
             T temp = array[i];
             array[i] = array[j];
@@ -183,21 +184,26 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
          * representation for a complete binary tree.
          */
 
+        //checks if left child exists
         if ((top * 2) + 1 <= last) {
+            //checks if right child exists
             if ((2 * top) + 2 <= last) {
                 if (order.compare(array[2 * top + 1],
                         array[2 * top + 2]) <= 0) {
+                    //if left child is smaller, swap with parent and sift down
                     if (order.compare(array[2 * top + 1], array[top]) < 0) {
                         exchangeEntries(array, (2 * top + 1), top);
                         siftDown(array, 2 * top + 1, last, order);
                     }
                 } else {
+                    //if right child is smaller, swap with parent and sift down
                     if (order.compare(array[2 * top + 2], array[top]) < 0) {
                         exchangeEntries(array, (2 * top + 2), top);
                         siftDown(array, 2 * top + 1, last, order);
                     }
                 }
             } else {
+                //if there is only a left child, compare to parent and swap if needed
                 if (order.compare(array[2 * top + 1], array[top]) < 0) {
                     T temp = array[2 * top + 1];
                     array[2 * top + 1] = array[top];
@@ -242,40 +248,17 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
             assert array[i] != null : ""
                     + "Violation of: all entries in array are not null";
         }
-//        /*
-//         * Impractical to check last requires clause; no need to check the other
-//         * requires clause, because it must be true when using the array
-//         * representation for a complete binary tree.
-//         */
-//
-//        int left = 2 * top + 1;
-//        int right = 2 * top + 2;
-//
-//        int largestOrSmallest = top;
-//
-//        //checks if left child exists and is greater/smaller than top element
-//        if (left < array.length
-//                && order.compare(array[left], array[largestOrSmallest]) > 0) {
-//            largestOrSmallest = left;
-//        }
-//
-//        //Checks if right child exists and is greater/smaller than top element
-//        //or left child
-//        if (right < array.length
-//                && order.compare(array[right], array[largestOrSmallest]) > 0) {
-//            largestOrSmallest = right;
-//        }
-//
-//        //if largest/smallest element is not top element, swap them and heapify
-//        //affected subtree
-//        if (largestOrSmallest != top) {
-//            exchangeEntries(array, top, largestOrSmallest);
-//            heapify(array, largestOrSmallest, order);
-//        }
+        /*
+         * Impractical to check last requires clause; no need to check the other
+         * requires clause, because it must be true when using the array
+         * representation for a complete binary tree.
+         */
 
+        //checks if subtree rooted at top has at least one child
         if (array.length > 1 && array.length > 2 * top + 1) {
-            heapify(array, 2 * top + 1, order);
-            heapify(array, 2 * top + 2, order);
+            heapify(array, 2 * top + 1, order); //recursive call on left subtree
+            heapify(array, 2 * top + 2, order); //recursive call on right subtree
+            //sift down current node to maintain heap
             siftDown(array, top, array.length - 1, order);
         }
 
@@ -314,12 +297,16 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
          * as shown, it results in a warning about an unchecked cast, though it
          * cannot fail.
          */
+
+        //create new array to hold heap
         T[] heap = (T[]) (new Object[q.length()]);
 
+        //populate heap array by dequeuing elements from queue
         for (int i = 0; q.length() > 0; i++) {
             T removed = q.dequeue();
             heap[i] = removed;
         }
+        //heapify array
         heapify(heap, 0, order);
 
         return heap;
@@ -441,9 +428,9 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
      */
     private void createNewRep(Comparator<T> order) {
 
-        this.machineOrder = order;
+        this.machineOrder = order; //set machine order for sorting
         this.insertionMode = true;
-        this.entries = new Queue1L<>();
+        this.entries = new Queue1L<>(); //create new empty queue to hold entries
         this.heapSize = 0;
 
         assert this.conventionHolds();
@@ -530,7 +517,6 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
         this.insertionMode = false;
         this.heap = buildHeap(this.entries, this.machineOrder);
         this.heapSize = this.heap.length;
-        //this.entries.clear();
 
         assert this.conventionHolds();
     }
@@ -543,10 +529,14 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
 
         T result = this.heap[0];
 
+        //swap first element with last if there is more than one
         if (this.heap.length > 1) {
             exchangeEntries(this.heap, 0, this.heap.length - 1);
         }
+        //update heap size without removed element
         this.heapSize = this.heap.length - 1;
+
+        //sift down new root
         siftDown(this.heap, 0, this.heapSize - 1, this.machineOrder);
 
         assert this.conventionHolds();
@@ -572,6 +562,8 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
         assert this.conventionHolds();
 
         int size = 0;
+
+        //if in insertion mode, size is equal to length of entries queue
         if (this.insertionMode) {
             size = this.entries.length();
         } else {
