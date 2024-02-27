@@ -242,35 +242,41 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
             assert array[i] != null : ""
                     + "Violation of: all entries in array are not null";
         }
-        /*
-         * Impractical to check last requires clause; no need to check the other
-         * requires clause, because it must be true when using the array
-         * representation for a complete binary tree.
-         */
+//        /*
+//         * Impractical to check last requires clause; no need to check the other
+//         * requires clause, because it must be true when using the array
+//         * representation for a complete binary tree.
+//         */
+//
+//        int left = 2 * top + 1;
+//        int right = 2 * top + 2;
+//
+//        int largestOrSmallest = top;
+//
+//        //checks if left child exists and is greater/smaller than top element
+//        if (left < array.length
+//                && order.compare(array[left], array[largestOrSmallest]) > 0) {
+//            largestOrSmallest = left;
+//        }
+//
+//        //Checks if right child exists and is greater/smaller than top element
+//        //or left child
+//        if (right < array.length
+//                && order.compare(array[right], array[largestOrSmallest]) > 0) {
+//            largestOrSmallest = right;
+//        }
+//
+//        //if largest/smallest element is not top element, swap them and heapify
+//        //affected subtree
+//        if (largestOrSmallest != top) {
+//            exchangeEntries(array, top, largestOrSmallest);
+//            heapify(array, largestOrSmallest, order);
+//        }
 
-        int left = 2 * top + 1;
-        int right = 2 * top + 2;
-
-        int largestOrSmallest = top;
-
-        //checks if left child exists and is greater/smaller than top element
-        if (left < array.length
-                && order.compare(array[left], array[largestOrSmallest]) > 0) {
-            largestOrSmallest = left;
-        }
-
-        //Checks if right child exists and is greater/smaller than top element
-        //or left child
-        if (right < array.length
-                && order.compare(array[right], array[largestOrSmallest]) > 0) {
-            largestOrSmallest = right;
-        }
-
-        //if largest/smallest element is not top element, swap them and heapify
-        //affected subtree
-        if (largestOrSmallest != top) {
-            exchangeEntries(array, top, largestOrSmallest);
-            heapify(array, largestOrSmallest, order);
+        if (array.length > 1 && array.length > 2 * top + 1) {
+            heapify(array, 2 * top + 1, order);
+            heapify(array, 2 * top + 2, order);
+            siftDown(array, top, array.length - 1, order);
         }
 
     }
@@ -310,7 +316,7 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
          */
         T[] heap = (T[]) (new Object[q.length()]);
 
-        for (int i = 0; q.length() != 0; i++) {
+        for (int i = 0; q.length() > 0; i++) {
             T removed = q.dequeue();
             heap[i] = removed;
         }
@@ -524,7 +530,7 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
         this.insertionMode = false;
         this.heap = buildHeap(this.entries, this.machineOrder);
         this.heapSize = this.heap.length;
-        this.entries.clear();
+        //this.entries.clear();
 
         assert this.conventionHolds();
     }
@@ -536,13 +542,12 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
         assert this.size() > 0 : "Violation of: this.contents /= {}";
 
         T result = this.heap[0];
-        this.heap[0] = this.heap[this.heapSize - 1];
-        this.heap[this.heapSize - 1] = null;
-        this.heapSize--;
 
-        if (this.size() > 1) {
-            siftDown(this.heap, 0, this.heapSize - 1, this.machineOrder);
+        if (this.heap.length > 1) {
+            exchangeEntries(this.heap, 0, this.heap.length - 1);
         }
+        this.heapSize = this.heap.length - 1;
+        siftDown(this.heap, 0, this.heapSize - 1, this.machineOrder);
 
         assert this.conventionHolds();
 
@@ -566,7 +571,13 @@ public class SortingMachine5a<T> extends SortingMachineSecondary<T> {
 
         assert this.conventionHolds();
 
-        return this.heapSize;
+        int size = 0;
+        if (this.insertionMode) {
+            size = this.entries.length();
+        } else {
+            size = this.heapSize;
+        }
+        return size;
     }
 
     @Override
